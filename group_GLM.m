@@ -1,3 +1,4 @@
+% Created using Lorenz's Script, run over all participants
 
 base_dir = '/Users/almila/Desktop/stats project copy 4/data/';
 for subj = 1:10
