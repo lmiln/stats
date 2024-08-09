@@ -1,3 +1,5 @@
+% **** This script gathers the selected model parameter values and performs a t-test ****
+
 % Put all the parameter Eps in a matrix
 
 
