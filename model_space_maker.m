@@ -13,14 +13,14 @@ dcm_models = {'DCM_model_simplified_IMG','DCM_model_alternative_IMG_fb','DCM_mod
 
 
 
-for subs = 1:10
+for sub_no = 1:10
     for m = 1:3
-    data_path = sprintf('/Users/almila/Desktop/stats project copy 4/groupleveldcm/sub-%03d/sub-%03d_%s', subs, subs, dcm_models{m});
+    data_path = sprintf('/Users/almila/Desktop/stats project copy 4/groupleveldcm/sub-%03d/sub-%03d_%s', sub_no, sub_no, dcm_models{m});
     data = load(data_path)
-    subj(subs).sess.model(m).F = data.F
-    subj(subs).sess.model(m).Ep = data.Ep
-    subj(subs).sess.model(m).Cp = data.Cp
-    subj(subs).sess.model(m).fname = data_path
+    subj(sub_no).sess.model(m).F = data.F
+    subj(sub_no).sess.model(m).Ep = data.Ep
+    subj(sub_no).sess.model(m).Cp = data.Cp
+    subj(sub_no).sess.model(m).fname = data_path
     end
 end
 
