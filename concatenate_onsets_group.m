@@ -2,23 +2,23 @@
 
 base_dir = '/Users/almila/Desktop/stats project copy 4/data/';
 
-for subj = 1:10
-    sub_dir = sprintf('%ssub-%03d', base_dir, subj);
+for sub_num = 1:10
+    sub_dir = sprintf('%ssub-%03d', base_dir, sub_num);
     cd (sub_dir)
 
-    fileName = sprintf('all_onsets_goodImag_sub%03d.mat', subj);
+    fileName = sprintf('all_onsets_goodImag_sub%03d.mat', sub_num);
 
-% Check if the file exists before loading
+% Check if the file exists 
     if exist(fileName, 'file')
         % Load the .mat file for the current subject
         load(fileName);
 
-        % Print a message indicating successful loading
-        disp(['Loaded file for subject: ', num2str(subj), ' from ', fileName]);
+        % Print a message
+        disp(['Loaded file for subject: ', num2str(sub_num), ' from ', fileName]);
         
     else
         % Print a warning message if the file does not exist
-        warning(['File not found for subject: ', num2str(subj), ' (', fileName, ')']);
+        warning(['File not found for subject: ', num2str(sub_num), ' (', fileName, ')']);
     end
     TR = 2;
 sessions = 6;
@@ -37,17 +37,16 @@ conc_onsets_fin = cell(1,length(onsets));
 for n = 1:length(onsets)
     columnData = conc_onsets(:, n);
     
-    % Alle Arrays in Spaltenvektoren umwandeln und zusammenfügen
     combinedArray = [];
     for row = 1:length(columnData)
         combinedArray = [combinedArray; columnData{row}(:)];
     end
     
-    % In eine einzelne Zelle packen
+
     conc_onsets_fin{n} = combinedArray;
 end
 
- saveFileName = sprintf('conc_onsets_sub%03d.mat', subj);
+ saveFileName = sprintf('conc_onsets_sub%03d.mat', sub_num);
 
         % Save the data with the subject number in the file name
         save(saveFileName, 'conc_onsets_fin');
