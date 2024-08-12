@@ -1,15 +1,16 @@
-% **** This script gathers the selected model's parameter values and performs a t-test ****
+%% Evaluate the winning model parameters
+
 
 % Put all the parameter Eps in a matrix
 
 
-num_participants = 10
+subs = 10
 num_parameters = 8
-parameter_matrix = zeros(num_participants, num_parameters);
+parameter_matrix = zeros(subs, num_parameters);
 
 % Use the parameters estimated in first level DCM
 
-for i = 1:num_participants
+for i = 1:subs
 filename = sprintf('/Users/almila/Desktop/stats project copy 4/groupleveldcm/sub-%03d/sub-%03d_DCM_model_simplified_IMG.mat', i, i);
     load(filename);
     
@@ -19,7 +20,7 @@ filename = sprintf('/Users/almila/Desktop/stats project copy 4/groupleveldcm/sub
     parameter_matrix(i, 4) = DCM.Ep.A(2,2); % SC: SMA
     parameter_matrix(i, 5) = DCM.Ep.B(1,2); % MC: lBA1/2 SMA - imagery modulatory connection
     parameter_matrix(i, 6) = DCM.Ep.B(2,1); % MC: SMA lBA1/2
-    parameter_matrix(i, 7) = DCM.Ep.C(1,1); % DI: lBA1/2
+    parameter_matrix(i, 7) = DCM.Ep.C(1,1); % DI: lBA1/2 - Driving input
     parameter_matrix(i, 8) = DCM.Ep.C(2,1); % DI: SMA
 end
 
@@ -27,13 +28,9 @@ end
 
 [h, p, ci, stats] = ttest(parameter_matrix);
 
-base_dir = '/Users/almila/Desktop/stats project copy 4/bms1'
-cd(base_dir)
+data_path = '/Users/almila/Desktop/stats project copy 4/bms1'
+cd(data_path)
 save('ttest_results.mat', 'h', 'p', 'ci', 'stats');
-
-for param_idx = 1:num_parameters
-    fprintf('Parameter %d: t = %.4f, p = %.4f\n', param_idx, stats.tstat(param_idx), p(param_idx));
-end
 
 % FDR correction (Bioinformatix Toolbox)
 
@@ -53,12 +50,61 @@ end
     
 save('ttest_results_fdr.mat', 'h', 'p', 'ci', 'stats', 'q', 'h_fdr');
 
+% Round the values to two decimal places for display 
+
+rounded_p = round(p, 2);
+rounded_q = round(q, 2);
+
+
+% Get rid of the last 2 zeros for display
+
+formatted_p = arrayfun(@(x) num2str(x, '%.4g'), rounded_p, 'UniformOutput', false);
+formatted_q = arrayfun(@(x) num2str(x, '%.4g'), rounded_q, 'UniformOutput', false);
+
 % Make a table
-T = table((1:num_parameters)', p' , q', formatted_h_fdr', ...
+
+parameter_names = {'SC: lBA 1/2','EC: lBA 1/2 SMA','EC: SMA lBA 1/2','SC: SMA','MC: lBA 1/2 SMA','MC: SMA lBA 1/2', 'DI: lBA1/2', 'DI: SMA'}
+
+T = table(parameter_names', formatted_p' , formatted_q', formatted_h_fdr, ...
     'VariableNames', {'Parameter', 'p value', 'FDR Corrected p', 'Significant FDR'});
 
 % Make a figure
+
 fig = uifigure('Name', 'Connectivity Parameters Results');
 uit = uitable(fig, 'Data', T, 'ColumnName', T.Properties.VariableNames, 'RowName', {});
 uit.Position = [20 20 600 200];
+
+%% Visualize the BMS Exceedence Probabilities
+
+% Load the BMS data
+
+load('/Users/almila/Desktop/stats project copy 4/groupleveldcm/BMS.mat');
+
+% Xps
+
+model_xp = BMS.DCM.rfx.model.xp ;
+model_pxp = BMS.DCM.rfx.model.pxp ;
+
+% Round the values to two decimal places for display 
+
+rmodel_xp = round(model_xp,2);
+rmodel_pxp = round(model_pxp,2);
+
+% Get rid of the last 2 zeros for display
+
+formatted_xp = arrayfun(@(x) num2str(x, '%.4g'), rmodel_xp, 'UniformOutput', false);
+formatted_pxp = arrayfun(@(x) num2str(x, '%.4g'), rmodel_pxp, 'UniformOutput', false);
+
+
+% Make a table xp & pxp
+
+models = {'Model 1', 'Model 2', 'Model 3'};
+T = table(models', formatted_xp' , formatted_pxp', ...
+    'VariableNames', {'Models', 'Unprotected xp', 'Protected xp'});
+
+% Make a figure xp & pxp
+
+fig = uifigure('Name','Exceedance Probabilities')
+uit = uitable(fig, 'Data', T, 'ColumnName', T.Properties.VariableNames, 'RowName', {});
+uit.Position = [3 5 400 100];
 
