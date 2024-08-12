@@ -2,12 +2,12 @@
 % Created using Lorenz's Script, run over all participants
 
 data_dir = '/Users/almila/Desktop/stats project copy 4/data/';
-for subs = 1:10
+for sub_no = 1:10
     clear matlabbatch
-    sub_dir = sprintf('%ssub-%03d', data_dir, subj);
+    sub_dir = sprintf('%ssub-%03d', data_dir, sub_no);
     cd(sub_dir);
 
-    loadfileName = sprintf('conc_onsets_sub%03d.mat', subj);
+    loadfileName = sprintf('conc_onsets_sub%03d.mat', sub_no);
     output_path = sprintf('%s/conc_runs_IMG_STIM', sub_dir);
     sub_folders = dir(fullfile(sub_dir, 'run*'));
     
