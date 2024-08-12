@@ -39,7 +39,7 @@ onsets_null_2 = conc_onsets_fin{8};
 onsets_preCue = conc_onsets_fin{9};
 onsets_motion = conc_onsets_fin{10};
 onsets_badImg = conc_onsets_fin{11};
-matlabbatch{1}.spm.stats.fmri_spec.dir = {output_dir};
+matlabbatch{1}.spm.stats.fmri_spec.dir = {output_path};
 matlabbatch{1}.spm.stats.fmri_spec.sess(1).scans = run;
 matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).name = 'STIM';
 matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).onset = onsets_stim;
@@ -108,7 +108,7 @@ spm_fmri_concatenate('SPM.mat', scans);
 
 clear matlabbatch
 
-estimate_path = sprintf('%s/SPM.mat', output_dir);
+estimate_path = sprintf('%s/SPM.mat', output_path);
 
 matlabbatch{1}.spm.stats.fmri_est.spmmat = {estimate_path};
 matlabbatch{1}.spm.stats.fmri_est.write_residuals = 0;
