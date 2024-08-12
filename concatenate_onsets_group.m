@@ -1,12 +1,12 @@
 % Created with Lorenz's Script, run over all participants
 
-base_dir = '/Users/almila/Desktop/stats project copy 4/data/';
+data_path = '/Users/almila/Desktop/stats project copy 4/data/';
 
-for sub_num = 1:10
-    sub_dir = sprintf('%ssub-%03d', base_dir, sub_num);
+for subs = 1:10
+    sub_dir = sprintf('%ssub-%03d', base_dir, subs);
     cd (sub_dir)
 
-    fileName = sprintf('all_onsets_goodImag_sub%03d.mat', sub_num);
+    fileName = sprintf('all_onsets_goodImag_sub%03d.mat', subs);
 
 % Check if the file exists 
     if exist(fileName, 'file')
@@ -14,11 +14,11 @@ for sub_num = 1:10
         load(fileName);
 
         % Print a message
-        disp(['Loaded file for subject: ', num2str(sub_num), ' from ', fileName]);
+        disp(['Loaded file for subject: ', num2str(subs), ' from ', fileName]);
         
     else
         % Print a warning message if the file does not exist
-        warning(['File not found for subject: ', num2str(sub_num), ' (', fileName, ')']);
+        warning(['File not found for subject: ', num2str(subs), ' (', fileName, ')']);
     end
     TR = 2;
 sessions = 6;
@@ -46,7 +46,7 @@ for n = 1:length(onsets)
     conc_onsets_fin{n} = combinedArray;
 end
 
- saveFileName = sprintf('conc_onsets_sub%03d.mat', sub_num);
+ saveFileName = sprintf('conc_onsets_sub%03d.mat', subs);
 
         % Save the data with the subject number in the file name
         save(saveFileName, 'conc_onsets_fin');
