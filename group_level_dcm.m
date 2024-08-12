@@ -5,12 +5,12 @@
 base_dir = '/Users/almila/Desktop/stats project copy 4/data';
 cd (base_dir)
 
-for subs = 1:10
+for sub_no = 1:10
     clear matlabbatch
     
-    data_path = sprintf('%s/sub-%03d/conc_runs_IMG_STIM', base_dir, subs);
+    data_path = sprintf('%s/sub-%03d/conc_runs_IMG_STIM', base_dir, sub_no);
     cd(data_path);
-    model_output= sprintf('/Users/almila/Desktop/stats project copy 4/groupleveldcm/sub-%03d', subs);
+    model_output= sprintf('/Users/almila/Desktop/stats project copy 4/groupleveldcm/sub-%03d', sub_no);
     % Load the SPM model
     load(fullfile(data_path, 'SPM.mat'));
     
@@ -68,7 +68,7 @@ for subs = 1:10
              1]; % SMA receives input
     
     % Save the model
-    modelfile1_name= sprintf('sub-%03d_DCM_model_simplified_IMG.mat', subs);
+    modelfile1_name= sprintf('sub-%03d_DCM_model_simplified_IMG.mat', sub_no);
     save(fullfile(model_output, modelfile1_name), 'DCM');
     %% Alternative Model 1
     % Fixed connectivity (A-Matrix)
@@ -88,7 +88,7 @@ for subs = 1:10
     
     
     % Save the model
-    modelfile2_name= sprintf('sub-%03d_DCM_model_alternative_IMG_ff.mat', subs);
+    modelfile2_name= sprintf('sub-%03d_DCM_model_alternative_IMG_ff.mat', sub_no);
     save(fullfile(model_output, modelfile2_name), 'DCM');
 
     %% Alternative Model 2
@@ -109,7 +109,7 @@ for subs = 1:10
              1]; % SMA receives input
 
     % Save the model
-    modelfile3_name= sprintf('sub-%03d_DCM_model_alternative_IMG_fb.mat', subs);
+    modelfile3_name= sprintf('sub-%03d_DCM_model_alternative_IMG_fb.mat', sub_no);
     save(fullfile(model_output, modelfile3_name), 'DCM');
     %% DCM Estimation for both models
     
