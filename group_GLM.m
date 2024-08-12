@@ -1,14 +1,14 @@
 % **** GLM for every subject **** 
 % Created using Lorenz's Script, run over all participants
 
-base_dir = '/Users/almila/Desktop/stats project copy 4/data/';
-for subj = 1:10
+data_dir = '/Users/almila/Desktop/stats project copy 4/data/';
+for subs = 1:10
     clear matlabbatch
-    sub_dir = sprintf('%ssub-%03d', base_dir, subj);
+    sub_dir = sprintf('%ssub-%03d', data_dir, subj);
     cd(sub_dir);
 
     loadfileName = sprintf('conc_onsets_sub%03d.mat', subj);
-    output_dir = sprintf('%s/conc_runs_IMG_STIM', sub_dir);
+    output_path = sprintf('%s/conc_runs_IMG_STIM', sub_dir);
     sub_folders = dir(fullfile(sub_dir, 'run*'));
     
 
